@@ -1,21 +1,4 @@
-SELECT cst_id,COUNT(*) FROM
 
-(SELECT 
-		
-		ci.cst_gndr AS gender,
-		ci.cst_create_date AS create_date ,
-		ca.bdate AS birthdate,
-		ca.gen   AS g,
-		la.cntry
-	FROM silver.crm_cust_info ci
-LEFT JOIN silver.erp_cust_az12 ca
-ON        ci.cst_key =ca.cid
-LEFT JOIN silver.erp_loc_a101 la
-ON        ci.cst_key = la.cid
-)t
-
-GROUP BY cst_id
-HAVING COUNT(*) >1
 -------------------------GOLD-----------------------GOLD--------------------GOLD
 CREATE VIEW gold.dim_customers AS 
 SELECT  
@@ -84,4 +67,5 @@ CREATE VIEW gold.fact_sales AS
 		 ON c.customer_key = f.customer_key
 		 LEFT JOIN gold.dim_products p
 		 ON p.product_key = f.product_key
+
 		 WHERE p.product_key IS NULL
